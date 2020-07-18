@@ -156,13 +156,13 @@ $app->get('/update/{token}', function (Request $request, Response $response, $ar
         $sql .= implode(",\n", $sqlRowsData);
 
         // первое добавление
-        $res_ins = $mysql_connect->query($sql);
+        $res_ins = $mysqlConnect->query($sql);
 
         if ($res_ins) {
             $response->getBody()->write("Значения добавлены!\n");
         } else {
             $res_upd = false;
-            $sql_prepare = $mysql_connect->prepare('UPDATE currency SET name = ?, rate = ? WHERE id = ?');
+            $sql_prepare = $mysqlConnect->prepare('UPDATE currency SET name = ?, rate = ? WHERE id = ?');
 
             foreach ($allTableDate as $key => $val) {
                 $res_upd = $sql_prepare->execute([
@@ -194,7 +194,7 @@ $app->get('/currency/{id}/{token}', function (Request $request, Response $respon
     if (!empty($args['token']) && is_file('/var/www/first/auth/' . $args['token'])) {
         require_once __DIR__ . "/../app/db_connect.php";
 
-        $sql_res = $mysql_connect->query('SELECT rate FROM currency WHERE id = ' . (int) $args['id']);
+        $sql_res = $mysqlConnect->query('SELECT rate FROM currency WHERE id = ' . (int) $args['id']);
         $result = $sql_res->fetch();
         $result = $result['rate'] ? $result['rate'] : 'Нет данных';
         $decimal = explode('.', $result);
