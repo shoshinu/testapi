@@ -1,0 +1,8 @@
+vendor/
+.idea/
+auth/
+
+app/.conf.php
+
+composer.lock
+.git
